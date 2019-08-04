@@ -32,6 +32,7 @@ We want you to solve these cases:
   
   We have a setting page where includes various confidential settings, our users want to allow the Manager to have access to only some pages. For example, we have `employee pages`, `Credit card pages`, then Managers can only see `employee pages`.
   
+4. The users want a central setting page where they can easily change the permissions as described in 1,2,3.
 
 ### Bonus points
 - Doing proper error handling, adding unit tests, and commenting your code.
