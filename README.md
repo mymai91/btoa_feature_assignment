@@ -6,29 +6,38 @@ We want to see how you architect your app, and what your coding style is.
 
 ### Contents
 
-We want to set permissions Creatable/Updatable/Readable/Destroyable dynamically to each roles for any features we want.
-Then through out our system we can easily check permissions by refering to their roles.
+We want to set permissions dynamically to each role for any `attributes`, `objects`, `classes`.
+Then through out our system we can easily check user's permissions by refering to their roles.
 
-there are many features in system and we are going to add more features, it requires:
+We have 4 permissions as Creatable/Updatable/Readable/Destroyable
+
+We have 4 roles
 - sysadmin/director by default has full permissions.
-- Manager by default Readable
+- Manager by default can only Readable
 - Staff by default has no permissions
-- can create new roles in settings page.
-- can choose Creatable/Updatable/Readable/Destroyable permissions for any `resources` (it can be 1 attribute of the models or it can be freely defined classes) to assign to roles in settings page.
-
-For example: I want to limit role `Manager` to only `readable` to `Email Page`, so I will go to setting page and remove other permissions for `Email Page` from that role. (Email Page is just random example, it can be any resources!)
-
-- Not only be able to assign permissions to features but also to each data field, for example Manager can only Readable Employee's email.
 
 ### requirements
 
-- Design the models, db tables to support those Contents.
-- No other gems
-- Please CLONE this repo, implement and create your OWN REPO FOR SUBMISSION, send us the link to your repo. DO NOT CREATE PULL REQUEST TO THIS REPO.
+We want you to solve these cases:
+
+1. Limit access of Manager to base allowances data:
+
+  Each employee has many base allowances, 1 base allowance includes these attributes base_salary, overtime_payment, bonus, transport. Manager can only see base_salary.
+  
+ 2. Limit access of Manager to Survey:
+
+  Users are allowed to create survey freely, each survey has some questions. For example, SurveyA will have question1 and question2. Now that user want the Manager can only see the question1.
+  
+3. Limit access of Manager to Setting page:
+  
+  We have a setting page where includes various confidential settings, our users want to allow the Manager to have access to only some pages. For example, we have `employee pages`, `Credit card pages`, then Managers can only see `employee pages`.
+  
 
 ### Bonus points
 - Doing proper error handling, adding unit tests, and commenting your code.
 - Add TODOs and FIXMEs in places where you cut a corner for expediency but know a production ready version would need refactoring, additional tests or handling of certain edge cases that you know or suspect to exist but don't handle yet.
 
 ### NOTE
-We prepared for you models: company, employee, role.
+- We prepared for you models: company, employee, role.
+- Please CLONE this repo, implement and create your OWN REPO FOR SUBMISSION, send us the link to your repo. DO NOT CREATE PULL REQUEST TO THIS REPO.
+
