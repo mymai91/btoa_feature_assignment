@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  employee: one
+  currency: MyString
+  base_salary: 
+  overtime_payment: 
+  bonus: 
+  transport: 
+
+two:
+  employee: two
+  currency: MyString
+  base_salary: 
+  overtime_payment: 
+  bonus: 
+  transport: 

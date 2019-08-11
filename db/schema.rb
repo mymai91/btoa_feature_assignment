@@ -10,23 +10,59 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180101000000) do
+ActiveRecord::Schema.define(version: 20190811075027) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "access_scopes", force: :cascade do |t|
+    t.bigint "role_id"
+    t.string "table_name"
+    t.string "field_access"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["role_id"], name: "index_access_scopes_on_role_id"
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string "name", default: "", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+  end
+
+  create_table "create_role_permissions", force: :cascade do |t|
+    t.bigint "role_id"
+    t.bigint "permissions_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["permissions_id"], name: "index_create_role_permissions_on_permissions_id"
+    t.index ["role_id"], name: "index_create_role_permissions_on_role_id"
   end
 
   create_table "employees", force: :cascade do |t|
     t.string "last_name", default: "", null: false
     t.string "first_name", default: "", null: false
     t.string "email", default: "", null: false
-    t.integer "gender", limit: 1, default: 0, null: false
+    t.integer "gender", limit: 2, default: 0, null: false
     t.bigint "company_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["company_id"], name: "index_employees_on_company_id"
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_employees_on_company_id"
+  end
+
+  create_table "role_permissions", force: :cascade do |t|
+    t.bigint "role_id"
+    t.bigint "permissions_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permissions_id"], name: "index_role_permissions_on_permissions_id"
+    t.index ["role_id"], name: "index_role_permissions_on_role_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -40,4 +76,9 @@ ActiveRecord::Schema.define(version: 20180101000000) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
+  add_foreign_key "access_scopes", "roles"
+  add_foreign_key "create_role_permissions", "permissions", column: "permissions_id"
+  add_foreign_key "create_role_permissions", "roles"
+  add_foreign_key "role_permissions", "permissions", column: "permissions_id"
+  add_foreign_key "role_permissions", "roles"
 end

@@ -42,3 +42,25 @@ We want you to solve these cases:
 - We prepared for you models: company, employee, role.
 - Please CLONE this repo, implement and create your OWN REPO FOR SUBMISSION, send us the link to your repo. DO NOT CREATE PULL REQUEST TO THIS REPO.
 
+# RESULT
+
+### Prepared
+
+- Upgraded sqlite3 to pg database 
+
+- install npm package
+
+### How to run
+
+open 1 tab to run rails server
+
+```
+  rails s
+
+```
+
+open 1 tab to run web pack
+
+```
+  ./bin/webpack-dev-server
+```
