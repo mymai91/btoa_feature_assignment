@@ -2,8 +2,8 @@
 
 one:
   role: one
-  permissions: one
+  permission: one
 
 two:
   role: two
-  permissions: two
+  permission: two

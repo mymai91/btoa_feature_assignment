@@ -16,13 +16,14 @@ role_manager = Role.create({name: "manager"})
 role_staff = Role.create({name: "staff"})
 
 # Create sysadmin for each company
-companies.each do |company_item|
-  company = Company.create(company_item)
+ranges = 1..5
 
+companies.each_with_index do |company_item, com_index|
+  company = Company.create(company_item)
   sysadmin = {
     last_name: "mr",
     first_name: "sysadmin",
-    email: "sysadmin@#{company_item.downcase}.com",
+    email: "sysadmin@#{company_item[:name].downcase}.com",
     company_id: company.id,
     role_id: role_sysadmin.id
   }
@@ -30,7 +31,7 @@ companies.each do |company_item|
   director = {
     last_name: "mr",
     first_name: "director",
-    email: "director@#{company_item.downcase}.com",
+    email: "director@#{company_item[:name].downcase}.com",
     company_id: company.id,
     role_id: role_director.id
   }
@@ -38,23 +39,35 @@ companies.each do |company_item|
   manager = {
     last_name: "mr",
     first_name: "manager",
-    email: "manager@#{company_item.downcase}.com",
+    email: "manager@#{company_item[:name].downcase}.com",
     company_id: company.id,
     role_id: role_manager.id
   }
 
-  staff = {
-    last_name: "mr",
-    first_name: "staff",
-    email: "staff@#{company_item.downcase}.com",
-    company_id: company.id,
-    role_id: role_staff.id
-  }
+  ranges.each do |item|
+    data = {
+      last_name: "mr",
+      first_name: "staff_#{item}",
+      email: "staff_#{item}@#{company_item[:name].downcase}.com",
+      company_id: company.id,
+      role_id: role_staff.id
+    }
+    staff = Employee.create(data)
+    data_income = {
+      employee_id: staff.id,
+      currency: 'SGD',
+      base_salary: 1000 * item,
+      overtime_payment: 1 * item,
+      bonus: 100 * item,
+      transport: 200 * com_index
+    }
+    Income.create(data_income)
+  end
 
   Employee.create(sysadmin)
   Employee.create(director)
   Employee.create(manager)
-  Employee.create(staff)
+  # Employee.create(staff)
 end
 
 # Permission
@@ -66,46 +79,45 @@ destroyable = Permission.create(name: "destroyable")
 # role_permission
 sysadmin_permission = [
   {
-    role: role_sysadmin.id,
+    role_id: role_sysadmin.id,
     permission_id: creatable.id
   },
   {
-    role: role_sysadmin.id,
+    role_id: role_sysadmin.id,
     permission_id: updatable.id
   },
   {
-    role: role_sysadmin.id,
+    role_id: role_sysadmin.id,
     permission_id: readable.id
   },
   {
-    role: role_sysadmin.id,
+    role_id: role_sysadmin.id,
     permission_id: destroyable.id
   }
 ]
-
 RolePermission.create(sysadmin_permission)
 
 director_permission = [
   {
-    role: role_director.id,
+    role_id: role_director.id,
     permission_id: creatable.id
   },
   {
-    role: role_director.id,
+    role_id: role_director.id,
     permission_id: updatable.id
   },
   {
-    role: role_director.id,
+    role_id: role_director.id,
     permission_id: readable.id
   },
   {
-    role: role_director.id,
+    role_id: role_director.id,
     permission_id: destroyable.id
   }
 ]
 RolePermission.create(director_permission)
 
 RolePermission.create({
-  role: role_manager.id,
+  role_id: role_manager.id,
   permission_id: readable.id
 })

@@ -52,14 +52,20 @@ We want you to solve these cases:
 
 ### How to run
 
-open 1 tab to run rails server
+#### open 1 tab to run db
+
+```
+rails db:drop db:create db:migrate db:seed
+```
+
+#### open 1 tab to run rails server
 
 ```
   rails s
 
 ```
 
-open 1 tab to run web pack
+#### open 1 tab to run web pack
 
 ```
   ./bin/webpack-dev-server

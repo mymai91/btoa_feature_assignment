@@ -1,27 +1,22 @@
-// Run this example by adding <%= javascript_pack_tag 'index' %> to the head of your layout file,
-// like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
-// of the page.
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Setting from './containers/Setting'
 import 'antd/dist/antd.css';
 
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
-
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: PropTypes.string
-}
+const App = () => (
+  <Switch>
+    <Route path="/" component={Setting} />
+  </Switch>
+);
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Hello name="Jany" />,
+    <div>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </div>,
     document.body.appendChild(document.createElement('div')),
   )
 })
