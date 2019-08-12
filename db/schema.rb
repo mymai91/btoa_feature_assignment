@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20190811091223) do
   create_table "access_scopes", force: :cascade do |t|
     t.bigint "role_id"
     t.string "table_name"
-    t.string "field_access"
+    t.string "field_access", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["role_id"], name: "index_access_scopes_on_role_id"

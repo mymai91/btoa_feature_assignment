@@ -125,5 +125,5 @@ RolePermission.create({
 AccessScope.create({
   role_id: role_manager.id,
   table_name: 'incomes',
-  field_access: 'base_salary'
+  field_access: ['base_salary']
 })

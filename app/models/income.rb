@@ -17,7 +17,7 @@ class Income < ApplicationRecord
   def self.filter_by_company(params)
     company_id = params[:company_id]
     fields = AccessScope.incomes(params[:role_id])
-    
+    byebug
     Income.joins(:employee).where(employees: {company_id: company_id}).select("id", "employees.first_name as employee_name", fields)
   end
 end
