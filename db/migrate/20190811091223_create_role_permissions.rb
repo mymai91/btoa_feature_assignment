@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRolePermissions < ActiveRecord::Migration[5.1]
   def change
     create_table :role_permissions do |t|

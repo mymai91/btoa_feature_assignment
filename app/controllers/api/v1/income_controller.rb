@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V1
   class IncomeController < ApplicationController
     include ApplicationHelper
@@ -5,7 +7,7 @@ module Api::V1
     def index
       incomes = Income.filter_by_company(income_params)
       render json: {
-        incomes: incomes,
+        incomes: incomes
       }, status: :ok
     end
 
@@ -13,8 +15,8 @@ module Api::V1
 
     def income_params
       {
-        role_id: params["role_id"],
-        company_id: params["company_id"]
+        role_id: params['role_id'],
+        company_id: params['company_id']
       }
     end
   end

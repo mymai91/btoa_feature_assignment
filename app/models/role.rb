@@ -14,7 +14,7 @@ class Role < ApplicationRecord
 
   has_and_belongs_to_many :employees, join_table: :employees_roles
   belongs_to :resource, polymorphic: true, optional: true
-  
+
   has_many :role_permissions
   has_many :permissions, through: :role_permissions
 
@@ -24,6 +24,6 @@ class Role < ApplicationRecord
   validates :name, inclusion: { in: ROLES }, presence: true
 
   def self.get_all
-    self.all
+    all
   end
 end

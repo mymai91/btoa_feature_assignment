@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAccessScopes < ActiveRecord::Migration[5.1]
   def change
     create_table :access_scopes do |t|

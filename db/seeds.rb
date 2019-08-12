@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -6,14 +8,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-companies = [{name: "Google"}, {name: "Apple"}, {name: "Microsoft"}, {name: "Uber"}, {name: "Grab"}]
+companies = [{ name: 'Google' }, { name: 'Apple' }, { name: 'Microsoft' }, { name: 'Uber' }, { name: 'Grab' }]
 
 # Company.create(companies)
 
-role_sysadmin = Role.create({name: "sysadmin"})
-role_director = Role.create({name: "director"})
-role_manager = Role.create({name: "manager"})
-role_staff = Role.create({name: "staff"})
+role_sysadmin = Role.create(name: 'sysadmin')
+role_director = Role.create(name: 'director')
+role_manager = Role.create(name: 'manager')
+role_staff = Role.create(name: 'staff')
 
 # Create sysadmin for each company
 ranges = 1..5
@@ -21,24 +23,24 @@ ranges = 1..5
 companies.each_with_index do |company_item, com_index|
   company = Company.create(company_item)
   sysadmin = {
-    last_name: "mr",
-    first_name: "sysadmin",
+    last_name: 'mr',
+    first_name: 'sysadmin',
     email: "sysadmin@#{company_item[:name].downcase}.com",
     company_id: company.id,
     role_id: role_sysadmin.id
   }
 
   director = {
-    last_name: "mr",
-    first_name: "director",
+    last_name: 'mr',
+    first_name: 'director',
     email: "director@#{company_item[:name].downcase}.com",
     company_id: company.id,
     role_id: role_director.id
   }
 
   manager = {
-    last_name: "mr",
-    first_name: "manager",
+    last_name: 'mr',
+    first_name: 'manager',
     email: "manager@#{company_item[:name].downcase}.com",
     company_id: company.id,
     role_id: role_manager.id
@@ -46,7 +48,7 @@ companies.each_with_index do |company_item, com_index|
 
   ranges.each do |item|
     data = {
-      last_name: "mr",
+      last_name: 'mr',
       first_name: "staff_#{item}",
       email: "staff_#{item}@#{company_item[:name].downcase}.com",
       company_id: company.id,
@@ -71,10 +73,10 @@ companies.each_with_index do |company_item, com_index|
 end
 
 # Permission
-creatable = Permission.create(name: "creatable")
-updatable = Permission.create(name: "updatable")
-readable = Permission.create(name: "readable")
-destroyable = Permission.create(name: "destroyable")
+creatable = Permission.create(name: 'creatable')
+updatable = Permission.create(name: 'updatable')
+readable = Permission.create(name: 'readable')
+destroyable = Permission.create(name: 'destroyable')
 
 # role_permission
 sysadmin_permission = [
@@ -117,13 +119,13 @@ director_permission = [
 ]
 RolePermission.create(director_permission)
 
-RolePermission.create({
+RolePermission.create(
   role_id: role_manager.id,
   permission_id: readable.id
-})
+)
 
-AccessScope.create({
+AccessScope.create(
   role_id: role_manager.id,
   table_name: 'incomes',
   field_access: ['base_salary']
-})
+)

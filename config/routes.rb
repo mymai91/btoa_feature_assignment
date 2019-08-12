@@ -1,5 +1,6 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       # resources :setting
@@ -11,5 +12,5 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#index'
-  match "*path", to: "pages#index", via: :all
+  match '*path', to: 'pages#index', via: :all
 end

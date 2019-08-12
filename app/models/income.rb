@@ -1,12 +1,7 @@
+# frozen_string_literal: true
+
 class Income < ApplicationRecord
   belongs_to :employee
-
-  # scope :filter_by_company, lambda { |company_id|
-  #   byebug
-  #   # where("lower(title) LIKE ?", "%#{keyword.downcase}%" ) 
-  # }
-
-  
 
   def self.search(params = {})
     incomes = params[:income_ids].present? ? Income.where(id: params[:income_ids]) : Income.all
@@ -18,7 +13,7 @@ class Income < ApplicationRecord
     company_id = params[:company_id]
     fields = AccessScope.incomes(params[:role_id])
     results = []
-    results = Income.joins(:employee).where(employees: {company_id: company_id}).select("id", "employees.first_name as employee_name", fields) if fields.present?
+    results = Income.joins(:employee).where(employees: { company_id: company_id }).select('id', 'employees.first_name as employee_name', fields) if fields.present?
     results
   end
 end

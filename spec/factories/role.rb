@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :role do
-    name { "sysadmin" }
+    name { 'sysadmin' }
 
     trait :director do
-      name {"director"}
+      name { 'director' }
     end
 
     trait :manager do
-      name {"manager"}
+      name { 'manager' }
     end
 
     trait :staff do
-      name {"staff"}
+      name { 'staff' }
     end
   end
 end

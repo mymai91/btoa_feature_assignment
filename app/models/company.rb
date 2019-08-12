@@ -6,6 +6,6 @@ class Company < ApplicationRecord
   has_many :employees
 
   def self.get_all
-    self.all
+    all
   end
 end

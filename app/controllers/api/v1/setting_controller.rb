@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V1
   class SettingController < ApplicationController
     skip_before_action :verify_authenticity_token
@@ -15,7 +17,7 @@ module Api::V1
 
     def manage_table
       @roles = Role.get_all
-      
+
       render json: {
         roles: transform_roles,
         table_fields: table_columns,
@@ -25,6 +27,10 @@ module Api::V1
 
     def access_scope
       AccessScope.add_scope(manage_params)
+      
+      render json: {
+        message: 'updated new access scope'
+      }, status: :created
     end
 
     private
@@ -34,9 +40,9 @@ module Api::V1
     end
 
     def table_columns
-      tables = Hash.new
+      tables = {}
       list_table.each do |table_name|
-        tables[table_name] = ActiveRecord::Base.connection.columns(table_name).map{ |item| item.name }
+        tables[table_name] = ActiveRecord::Base.connection.columns(table_name).map(&:name)
       end
       tables
     end

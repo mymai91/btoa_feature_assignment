@@ -1,21 +1,23 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :company do
-    name { "Google" }
+    name { 'Google' }
 
     trait :apple do
-      name {"Apple"}
+      name { 'Apple' }
     end
 
     trait :microsoft do
-      name {"Microsoft"}
+      name { 'Microsoft' }
     end
 
     trait :uber do
-      name {"Uber"}
+      name { 'Uber' }
     end
 
     trait :grab do
-      name {"Grab"}
+      name { 'Grab' }
     end
   end
 end
