@@ -4,4 +4,8 @@ const settingApi = () => {
   return api().get('/setting/info');
 };
 
-export { settingApi };
+const getIncomeApi = options => {
+  return api().get('/income/index', { params: options });
+};
+
+export { settingApi, getIncomeApi };

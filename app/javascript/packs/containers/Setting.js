@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Row, Col, Button } from 'antd';
-import { settingApi } from '../api/setting';
+import { Select, Row, Col, Button, Table } from 'antd';
+import { settingApi, getIncomeApi } from '../api/setting';
 
 const { Option } = Select;
 
@@ -8,6 +8,7 @@ const DashboardContainer = props => {
   const [isLoading, setIsLoading] = useState(true);
   const [roles, setRoles] = useState([]);
   const [companies, setCompanies] = useState([]);
+  const [incomes, setIncomes] = useState([]);
   useEffect(() => {
     console.log('use effect');
     settingApi()
@@ -23,6 +24,17 @@ const DashboardContainer = props => {
       });
   }, []);
 
+  const columns = [
+    {
+      title: 'Employee Name',
+      dataIndex: 'employee_name',
+    },
+    {
+      title: 'Base Salary',
+      dataIndex: 'base_salary',
+    },
+  ];
+
   const handleChange = value => {
     console.log(`selected ${value}`);
   };
@@ -32,6 +44,21 @@ const DashboardContainer = props => {
       {name}
     </Option>
   ));
+
+  const getIncome = () => {
+    const opts = {
+      role_id: 3,
+      company_id: 1,
+    };
+    getIncomeApi(opts)
+      .then(({ data: { incomes } }) => {
+        setIncomes(incomes);
+        console.log('resetDayDetailFetchData===', incomes);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
 
   const companyOptionsTemplate = companies.map(({ id, name }) => (
     <Option value={id} key={id}>
@@ -70,8 +97,14 @@ const DashboardContainer = props => {
               </Col>
               <Col span={4}>
                 <h3>Result</h3>
-                <Button type="primary">View</Button>
+                <Button type="primary" onClick={() => getIncome()}>
+                  View
+                </Button>
               </Col>
+            </Row>
+
+            <Row gutter={16}>
+              <Table dataSource={incomes} columns={columns} rowKey="id" />
             </Row>
           </Col>
         </Row>
