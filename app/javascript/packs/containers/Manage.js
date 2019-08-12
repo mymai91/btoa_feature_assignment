@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Row, Col, Button, Table } from 'antd';
+import { Layout, Select, Row, Col, Button } from 'antd';
 import { manageApi, setAccessScopeApi } from '../api/setting';
+import HeaderLayout from '../components/Header';
 
 const { Option } = Select;
+const { Content } = Layout;
 
 const Manage = props => {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +35,6 @@ const Manage = props => {
   };
 
   const handleChange = (value, type) => {
-    console.log('value', value);
     if (type === 'table') {
       setCurrentTable(value);
       const fields = tableFields[value];
@@ -86,59 +87,71 @@ const Manage = props => {
   };
 
   return (
-    <div>
-      {isLoading ? (
-        <h3>Loading</h3>
-      ) : (
-        <Row>
-          <Col span={20} offset={2}>
-            <Row gutter={16} className="mv-5">
-              <h3>Access Scope Setting</h3>
+    <Layout>
+      <HeaderLayout />
 
-              <Col span={10}>
-                <h3>Setting For Role</h3>
-                <Select
-                  style={{ width: '60%' }}
-                  placeholder="Select a role"
-                  onChange={val => handleChange(val, 'role')}
-                >
-                  {roleOptionsTemplate}
-                </Select>
-              </Col>
+      <Layout>
+        {isLoading ? (
+          <h3>Loading</h3>
+        ) : (
+          <Content
+            style={{
+              background: '#fff',
+              padding: 24,
+              margin: 0,
+              minHeight: 280,
+            }}
+          >
+            <h2>Manage Access Scope Setting</h2>
+            <Row>
+              <Col span={20} offset={2}>
+                <Row gutter={16} className="mv-5">
+                  <Col span={10}>
+                    <h3>Setting For Role</h3>
+                    <Select
+                      style={{ width: '60%' }}
+                      placeholder="Select a role"
+                      onChange={val => handleChange(val, 'role')}
+                    >
+                      {roleOptionsTemplate}
+                    </Select>
+                  </Col>
 
-              <Col span={10}>
-                <h3>Manage on</h3>
-                <Select
-                  style={{ width: '60%' }}
-                  placeholder="Select a table"
-                  onChange={val => handleChange(val, 'table')}
-                >
-                  {listTableOptionsTemplate}
-                </Select>
+                  <Col span={10}>
+                    <h3>Manage on</h3>
+                    <Select
+                      style={{ width: '60%' }}
+                      placeholder="Select a table"
+                      onChange={val => handleChange(val, 'table')}
+                    >
+                      {listTableOptionsTemplate}
+                    </Select>
+                  </Col>
+                </Row>
+
+                <h3 className="mv-5">Limit access</h3>
+                <Row gutter={16} className="mv-5">
+                  <Col span={24}>
+                    <h3>Manage on</h3>
+                    <Select
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      onChange={val => handleChange(val, 'scope')}
+                    >
+                      {accessFieldOptionsTemplate}
+                    </Select>
+                  </Col>
+                </Row>
+                <Button type="primary" onClick={() => submitAccessScope()}>
+                  Submit
+                </Button>
               </Col>
             </Row>
-
-            <h3 className="mv-5">Limit access</h3>
-            <Row gutter={16} className="mv-5">
-              <Col span={24}>
-                <h3>Manage on</h3>
-                <Select
-                  mode="multiple"
-                  style={{ width: '100%' }}
-                  placeholder="Please select"
-                  onChange={val => handleChange(val, 'scope')}
-                >
-                  {accessFieldOptionsTemplate}
-                </Select>
-              </Col>
-            </Row>
-            <Button type="primary" onClick={() => submitAccessScope()}>
-              Submit
-            </Button>
-          </Col>
-        </Row>
-      )}
-    </div>
+          </Content>
+        )}
+      </Layout>
+    </Layout>
   );
 };
 

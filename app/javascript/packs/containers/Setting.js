@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Row, Col, Button, Table } from 'antd';
+import { Layout, Select, Row, Col, Button, Table } from 'antd';
 import { settingApi, getIncomeApi } from '../api/setting';
+import HeaderLayout from '../components/Header';
 
 const { Option } = Select;
+const { Content } = Layout;
 
 const Setting = props => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,8 +39,6 @@ const Setting = props => {
       title: item,
       dataIndex: item,
     }));
-
-  console.log('generateColumns', generateColumns);
 
   const handleChange = (value, type) => {
     if (type === 'role') {
@@ -76,51 +76,65 @@ const Setting = props => {
     </Option>
   ));
   return (
-    <div>
-      {isLoading ? (
-        <h3>Loading</h3>
-      ) : (
-        <Row>
-          <Col span={20} offset={2}>
-            <Row gutter={16} className="mv-5">
-              <Col span={10}>
-                <h3>IAM</h3>
-                <Select
-                  style={{ width: '60%' }}
-                  placeholder="Select a role"
-                  onChange={val => handleChange(val, 'role')}
-                >
-                  {roleOptionsTemplate}
-                </Select>
-              </Col>
+    <Layout>
+      <HeaderLayout />
 
-              <Col span={10}>
-                <h3>From</h3>
-                <Select
-                  placeholder="Select a company"
-                  style={{ width: '60%' }}
-                  onChange={val => handleChange(val, 'company')}
-                >
-                  {companyOptionsTemplate}
-                </Select>
-              </Col>
-              <Col span={4}>
-                <h3>Result</h3>
-                <Button type="primary" onClick={() => getIncome()}>
-                  View
-                </Button>
+      <Layout>
+        {isLoading ? (
+          <h3>Loading</h3>
+        ) : (
+          <Content
+            style={{
+              background: '#fff',
+              padding: 24,
+              margin: 0,
+              minHeight: 280,
+            }}
+          >
+            <h2>Access result</h2>
+            <Row>
+              <Col span={20} offset={2}>
+                <Row gutter={16} className="mv-5">
+                  <Col span={10}>
+                    <h3>IAM</h3>
+                    <Select
+                      style={{ width: '60%' }}
+                      placeholder="Select a role"
+                      onChange={val => handleChange(val, 'role')}
+                    >
+                      {roleOptionsTemplate}
+                    </Select>
+                  </Col>
+
+                  <Col span={10}>
+                    <h3>From</h3>
+                    <Select
+                      placeholder="Select a company"
+                      style={{ width: '60%' }}
+                      onChange={val => handleChange(val, 'company')}
+                    >
+                      {companyOptionsTemplate}
+                    </Select>
+                  </Col>
+                  <Col span={4}>
+                    <h3>Result</h3>
+                    <Button type="primary" onClick={() => getIncome()}>
+                      View
+                    </Button>
+                  </Col>
+                </Row>
+
+                <Row gutter={16} className="mv-5">
+                  {incomes.length > 0 && (
+                    <Table dataSource={incomes} columns={generateColumns} rowKey="id" />
+                  )}
+                </Row>
               </Col>
             </Row>
-
-            <Row gutter={16} className="mv-5">
-              {incomes.length > 0 && (
-                <Table dataSource={incomes} columns={generateColumns} rowKey="id" />
-              )}
-            </Row>
-          </Col>
-        </Row>
-      )}
-    </div>
+          </Content>
+        )}
+      </Layout>
+    </Layout>
   );
 };
 
