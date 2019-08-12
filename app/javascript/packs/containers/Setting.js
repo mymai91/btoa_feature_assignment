@@ -9,6 +9,8 @@ const Setting = props => {
   const [roles, setRoles] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [incomes, setIncomes] = useState([]);
+  const [currentRole, setCurrentRole] = useState(null);
+  const [currentCompany, setCurrentCompany] = useState(null);
   useEffect(() => {
     getSettingInfo();
   }, []);
@@ -38,8 +40,13 @@ const Setting = props => {
     },
   ];
 
-  const handleChange = value => {
-    console.log(`selected ${value}`);
+  const handleChange = (value, type) => {
+    if (type === 'role') {
+      setCurrentRole(value);
+    }
+    if (type === 'company') {
+      setCurrentCompany(value);
+    }
   };
 
   const roleOptionsTemplate = roles.map(({ id, name }) => (
@@ -49,14 +56,14 @@ const Setting = props => {
   ));
 
   const getIncome = () => {
+    setIncomes([]);
     const opts = {
-      role_id: 3,
-      company_id: 1,
+      role_id: currentRole,
+      company_id: currentCompany,
     };
     getIncomeApi(opts)
       .then(({ data: { incomes } }) => {
         setIncomes(incomes);
-        console.log('resetDayDetailFetchData===', incomes);
       })
       .catch(err => {
         console.log('err', err);
@@ -68,7 +75,6 @@ const Setting = props => {
       {name}
     </Option>
   ));
-  // const roleOptionsTemplate = <div>Test</div>;
   return (
     <div>
       {isLoading ? (
@@ -82,7 +88,7 @@ const Setting = props => {
                 <Select
                   style={{ width: '60%' }}
                   placeholder="Select a role"
-                  onChange={handleChange}
+                  onChange={val => handleChange(val, 'role')}
                 >
                   {roleOptionsTemplate}
                 </Select>
@@ -93,7 +99,7 @@ const Setting = props => {
                 <Select
                   placeholder="Select a company"
                   style={{ width: '60%' }}
-                  onChange={handleChange}
+                  onChange={val => handleChange(val, 'company')}
                 >
                   {companyOptionsTemplate}
                 </Select>

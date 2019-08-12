@@ -37,14 +37,12 @@ const Manage = props => {
     if (type === 'table') {
       setCurrentTable(value);
       const fields = tableFields[value];
-      console.log('fields', fields);
       setFieldOptions(fields);
     }
     if (type === 'role') {
       setCurrentRole(value);
     }
     if (type === 'scope') {
-      console.log('value===== scope', value);
       setCurrentScope(value);
     }
   };
