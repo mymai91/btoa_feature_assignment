@@ -26,11 +26,17 @@ module Api::V1
     end
 
     def access_scope
-      AccessScope.add_scope(manage_params)
+      result = AccessScope.add_scope(manage_params)
       
-      render json: {
-        message: 'updated new access scope'
-      }, status: :created
+      if result
+        render json: {
+          message: 'updated new access scope'
+        }, status: :created
+      else
+        render json: {
+          message: 'No permission'
+        }, status: 403
+      end
     end
 
     private
@@ -59,7 +65,8 @@ module Api::V1
       {
         role_id: params[:role_id],
         table_name: params[:table_name],
-        field_access: params[:field_access]
+        field_access: params[:field_access],
+        iam_id: params[:iam_id]
       }
     end
   end

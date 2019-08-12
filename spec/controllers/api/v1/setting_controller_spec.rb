@@ -13,6 +13,8 @@ describe Api::V1::SettingController do
       @director = create(:role, :director)
       @staff = create(:role, :staff)
 
+      @permission_creatable = create(:permission)
+      @sys_admin.permissions = [@permission_creatable]
     end
 
     it 'should return a object include roles and companies' do
@@ -34,28 +36,38 @@ describe Api::V1::SettingController do
       expect(@response).to have_http_status(:ok)
     end
 
-    context "access scope" do
+    describe 'POST #access_scope' do
+      context "with permission access scope" do
+        it 'create new access scope if there is no access scope base on role and table' do
+          params = { 'iam_id'=> @sys_admin.id, 'role_id' => @manager.id, 'table_name' => 'incomes', 'field_access': ['base_salary'] }
+          access_scope = AccessScope.all.count
+          post :access_scope, params: params
+          
+          access_scope_created = AccessScope.all.count
 
-      it 'create new access scope if there is no access scope base on role and table' do
-        params = { 'role_id' => @manager.id, 'table_name' => 'incomes', 'field_access': ['base_salary'] }
-        access_scope = AccessScope.all.count
-        post :access_scope, params: params
-        
-        access_scope_created = AccessScope.all.count
+          expect(access_scope + 1).to eq(access_scope_created)
+          expect(@response).to have_http_status(:created)
+        end
 
-        expect(access_scope + 1).to eq(access_scope_created)
-        expect(@response).to have_http_status(:created)
+        it 'update new access scope if there is an access scope base on role and table' do
+          create(:access_scope, role_id: @manager.id)
+          access_scope = AccessScope.all.count
+          params = { 'iam_id'=> @sys_admin.id, 'role_id' => @manager.id, 'table_name' => 'incomes', 'field_access': ['base_salary'] }
+          post :access_scope, params: params
+
+          access_scope_created = AccessScope.all.count
+          expect(access_scope).to eq(access_scope_created)
+          expect(@response).to have_http_status(:created)
+        end
       end
 
-      it 'update new access scope if there is an access scope base on role and table' do
-        create(:access_scope, role_id: @manager.id)
-        access_scope = AccessScope.all.count
-        params = { 'role_id' => @manager.id, 'table_name' => 'incomes', 'field_access': ['base_salary'] }
-        post :access_scope, params: params
-
-        access_scope_created = AccessScope.all.count
-        expect(access_scope).to eq(access_scope_created)
-        expect(@response).to have_http_status(:created)
+      context "without permission" do
+        it 'throw error' do
+          params = { 'iam_id'=> @manager.id, 'role_id' => @manager.id, 'table_name' => 'incomes', 'field_access': ['base_salary'] }
+          post :access_scope, params: params
+          
+          expect(@response).to have_http_status(403)
+        end
       end
     end
   end

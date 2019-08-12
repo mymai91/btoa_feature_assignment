@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Select, Row, Col, Button } from 'antd';
+import { Layout, Select, Row, Col, Button, notification } from 'antd';
 import { manageApi, setAccessScopeApi } from '../api/setting';
 import HeaderLayout from '../components/Header';
 
@@ -12,6 +12,7 @@ const Manage = props => {
   const [tableFields, setTableFields] = useState([]);
   const [listTable, setListTable] = useState([]);
   const [currentTable, setCurrentTable] = useState(null);
+  const [currentIam, setCurrentIam] = useState(null);
   const [currentRole, setCurrentRole] = useState(null);
   const [currentScope, setCurrentScope] = useState(null);
   const [fieldOptions, setFieldOptions] = useState([]);
@@ -43,6 +44,9 @@ const Manage = props => {
     if (type === 'role') {
       setCurrentRole(value);
     }
+    if (type === 'iam') {
+      setCurrentIam(value);
+    }
     if (type === 'scope') {
       setCurrentScope(value);
     }
@@ -73,17 +77,26 @@ const Manage = props => {
       role_id: currentRole,
       table_name: currentTable,
       field_access: currentScope,
+      iam_id: currentIam,
     };
 
     setAccessScopeApi(option)
-      .then(response => {
-        console.log('data===', response);
+      .then(({ data: { message } }) => {
+        openNotification('success', message);
         setIsLoading(false);
       })
       .catch(err => {
+        const message = err.response.status === 403 ? 'No permission' : 'Something Error';
+        openNotification('error', message);
         setIsLoading(false);
-        console.log('err', err);
       });
+  };
+
+  const openNotification = (type, message) => {
+    notification[type]({
+      message: 'Manage Setting Error',
+      description: message,
+    });
   };
 
   return (
@@ -105,6 +118,19 @@ const Manage = props => {
             <h2>Manage Access Scope Setting</h2>
             <Row>
               <Col span={20} offset={2}>
+                <Row gutter={16} className="mv-5">
+                  <Col span={10}>
+                    <h3>IAM</h3>
+                    <Select
+                      style={{ width: '60%' }}
+                      placeholder="Select a role"
+                      onChange={val => handleChange(val, 'iam')}
+                    >
+                      {roleOptionsTemplate}
+                    </Select>
+                  </Col>
+                </Row>
+
                 <Row gutter={16} className="mv-5">
                   <Col span={10}>
                     <h3>Setting For Role</h3>

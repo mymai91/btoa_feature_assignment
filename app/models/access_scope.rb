@@ -14,11 +14,12 @@ class AccessScope < ApplicationRecord
   end
 
   def self.add_scope(params)
-    result = find_by(role_id: params[:role_id], table_name: params[:table_name])
-    if result.nil?
-      create(params)
+    if Role.check_permission?(params[:iam_id], 'creatable')
+      params = params.except(:iam_id)
+      result = find_by(role_id: params[:role_id], table_name: params[:table_name])
+      result.nil? ? create(params) : result.update(params)
     else
-      result.update(params)
+      nil
     end
   end
 end

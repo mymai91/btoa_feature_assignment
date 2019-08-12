@@ -26,4 +26,12 @@ class Role < ApplicationRecord
   def self.get_all
     all
   end
+
+  def self.check_permission?(role_id, action)
+    list_permissions(role_id).include?(action)
+  end
+
+  def self.list_permissions(role_id)
+    find(role_id).permissions.pluck(:name)
+  end
 end
