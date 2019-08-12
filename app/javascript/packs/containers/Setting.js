@@ -82,7 +82,7 @@ const Setting = props => {
       ) : (
         <Row>
           <Col span={20} offset={2}>
-            <Row gutter={16}>
+            <Row gutter={16} className="mv-5">
               <Col span={10}>
                 <h3>IAM</h3>
                 <Select
@@ -112,7 +112,7 @@ const Setting = props => {
               </Col>
             </Row>
 
-            <Row gutter={16}>
+            <Row gutter={16} className="mv-5">
               {incomes.length > 0 && (
                 <Table dataSource={incomes} columns={generateColumns} rowKey="id" />
               )}

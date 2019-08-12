@@ -92,7 +92,7 @@ const Manage = props => {
       ) : (
         <Row>
           <Col span={20} offset={2}>
-            <Row gutter={16}>
+            <Row gutter={16} className="mv-5">
               <h3>Access Scope Setting</h3>
 
               <Col span={10}>
@@ -118,8 +118,8 @@ const Manage = props => {
               </Col>
             </Row>
 
-            <h3>Limit access</h3>
-            <Row gutter={16}>
+            <h3 className="mv-5">Limit access</h3>
+            <Row gutter={16} className="mv-5">
               <Col span={24}>
                 <h3>Manage on</h3>
                 <Select

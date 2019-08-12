@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Setting from './containers/Setting'
 import Manage from './containers/Manage'
-import 'antd/dist/antd.css';
+
+import '../stylesheets/application.scss';
 
 const App = () => (
   <Switch>
