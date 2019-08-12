@@ -29,16 +29,16 @@ const Setting = props => {
       });
   };
 
-  const columns = [
-    {
-      title: 'Employee Name',
-      dataIndex: 'employee_name',
-    },
-    {
-      title: 'Base Salary',
-      dataIndex: 'base_salary',
-    },
-  ];
+  const columnNames = (incomes.length > 0 && Object.keys(incomes[0])) || [];
+
+  const generateColumns =
+    columnNames &&
+    columnNames.map(item => ({
+      title: item,
+      dataIndex: item,
+    }));
+
+  console.log('generateColumns', generateColumns);
 
   const handleChange = (value, type) => {
     if (type === 'role') {
@@ -113,7 +113,9 @@ const Setting = props => {
             </Row>
 
             <Row gutter={16}>
-              <Table dataSource={incomes} columns={columns} rowKey="id" />
+              {incomes.length > 0 && (
+                <Table dataSource={incomes} columns={generateColumns} rowKey="id" />
+              )}
             </Row>
           </Col>
         </Row>

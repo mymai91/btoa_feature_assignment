@@ -83,17 +83,6 @@ const Manage = props => {
         setIsLoading(false);
         console.log('err', err);
       });
-
-    // setAccessScopeApi(option)
-    //   .then(data => {
-    //     setIsLoading(false);
-    //     console.log('data', data);
-    //   })
-    //   .catch(err => {
-    //     setIsLoading(false);
-    //     console.log('err', err);
-    //   });
-    // console.log('options', option);
   };
 
   return (

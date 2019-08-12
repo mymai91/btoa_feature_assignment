@@ -24,8 +24,7 @@ module Api::V1
     end
 
     def access_scope
-      byebug
-      # AccessScope.add_scope(manage_params)
+      AccessScope.add_scope(manage_params)
     end
 
     private
