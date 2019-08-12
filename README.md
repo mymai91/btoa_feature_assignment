@@ -70,3 +70,9 @@ rails db:drop db:create db:migrate db:seed
 ```
   ./bin/webpack-dev-server
 ```
+
+### Pros and Cons
+
+#### Cons 
+
+There are no setting for authorization

@@ -1,5 +1,7 @@
 module Api::V1
   class SettingController < ApplicationController
+    skip_before_action :verify_authenticity_token
+
     include ApplicationHelper
     def info
       @roles = Role.get_all
@@ -11,7 +13,34 @@ module Api::V1
       }, status: :ok
     end
 
+    def manage_table
+      @roles = Role.get_all
+      
+      render json: {
+        roles: transform_roles,
+        table_fields: table_columns,
+        list_table: list_table
+      }, status: :ok
+    end
+
+    def access_scope
+      byebug
+      # AccessScope.add_scope(manage_params)
+    end
+
     private
+
+    def list_table
+      ActiveRecord::Base.connection.tables
+    end
+
+    def table_columns
+      tables = Hash.new
+      list_table.each do |table_name|
+        tables[table_name] = ActiveRecord::Base.connection.columns(table_name).map{ |item| item.name }
+      end
+      tables
+    end
 
     def transform_roles
       serialize_fields(@roles)
@@ -19,6 +48,14 @@ module Api::V1
 
     def transform_companies
       serialize_fields(@companies)
+    end
+
+    def manage_params
+      {
+        role_id: params[:role_id],
+        table_name: params[:table_name],
+        field_access: params[:field_access]
+      }
     end
   end
 end

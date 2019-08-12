@@ -4,13 +4,16 @@ import { settingApi, getIncomeApi } from '../api/setting';
 
 const { Option } = Select;
 
-const DashboardContainer = props => {
+const Setting = props => {
   const [isLoading, setIsLoading] = useState(true);
   const [roles, setRoles] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [incomes, setIncomes] = useState([]);
   useEffect(() => {
-    console.log('use effect');
+    getSettingInfo();
+  }, []);
+
+  const getSettingInfo = () => {
     settingApi()
       .then(({ data }) => {
         const { roles, companies } = data;
@@ -22,7 +25,7 @@ const DashboardContainer = props => {
         setIsLoading(false);
         console.log('err', err);
       });
-  }, []);
+  };
 
   const columns = [
     {
@@ -113,4 +116,4 @@ const DashboardContainer = props => {
   );
 };
 
-export default DashboardContainer;
+export default Setting;

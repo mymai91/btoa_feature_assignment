@@ -8,4 +8,12 @@ const getIncomeApi = options => {
   return api().get('/income/index', { params: options });
 };
 
-export { settingApi, getIncomeApi };
+const manageApi = () => {
+  return api().get('setting/manage_table');
+};
+
+const setAccessScopeApi = options => {
+  return api().post('setting/access_scope', options);
+};
+
+export { settingApi, getIncomeApi, manageApi, setAccessScopeApi };
